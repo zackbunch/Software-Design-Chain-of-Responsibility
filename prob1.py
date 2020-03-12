@@ -50,7 +50,7 @@ class DataHandler(AbstractHandler):
         if fnmatch.fnmatch(file,'*.csv'):
             try:
                 os.startfile(file)
-                print("This is {} handling request '{}'".format(self.__class__.__name__, request))
+                print("{} handling request '{}'".format(self.__class__.__name__, request))
                 return True
             except OSError:
                 print('File not found:',input_file)
@@ -68,7 +68,7 @@ class MusicHandler(AbstractHandler):
         if fnmatch.fnmatch(file,'*.mp3'):
             try:
                 os.startfile(file)
-                print("This is {} handling request '{}'".format(self.__class__.__name__, request))
+                print("{} handling request '{}'".format(self.__class__.__name__, request))
                 return True
             except OSError:
                 print('File not found:',input_file)
@@ -85,7 +85,7 @@ class TextHandler(AbstractHandler):
         if fnmatch.fnmatch(file,'*.txt'):
             try:
                 os.startfile(file)
-                print("This is {} handling request '{}'".format(self.__class__.__name__, request))
+                print("{} handling request '{}'".format(self.__class__.__name__, request))
                 return True
             except OSError:
                 print('File not found:',input_file)
@@ -103,7 +103,7 @@ class WordHandler(AbstractHandler):
         if fnmatch.fnmatch(file,'*.docx'):
             try:
                 os.startfile(file)
-                print("This is {} handling request '{}'".format(self.__class__.__name__, request))
+                print("{} handling request '{}'".format(self.__class__.__name__, request))
                 return True
             except OSError:
                 print('File not found:',input_file)
@@ -121,7 +121,7 @@ class DefaultHandler(AbstractHandler):
 
         """Gives the message that the request is not handled and returns true"""
 
-        print("This is {} telling you that request '{}' has no handler right now.".format(self.__class__.__name__,
+        print("{} telling you that request '{}' has no handler right now.".format(self.__class__.__name__,
                                                                                           request))
         return True
 
