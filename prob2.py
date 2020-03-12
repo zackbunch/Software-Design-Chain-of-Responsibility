@@ -32,6 +32,8 @@ class AbstractHandler(object):
 
         if not handled:
             self._nxt.handle(request)
+            print('Sequence of handlers:')
+            print(self.__class__.__name__, 'does not handle this type of request')
 
     def processRequest(self, request):
 
@@ -94,7 +96,7 @@ class TextHandler(AbstractHandler):
 
 class WordHandler(AbstractHandler):
 
-    """Concrete Handler # 4: Child class of AbstractHandler"""
+    """Concrete Handler # 3: Child class of AbstractHandler"""
 
     def processRequest(self, request):
 
@@ -135,7 +137,7 @@ class User:
         """Provides the sequence of handles for the users"""
 
         initial = None
-        #eliminate next handler and do all setup of chain in constructor
+
         self.handler = DataHandler(MusicHandler(TextHandler(WordHandler(DefaultHandler(initial)))))
 
     def agent(self, user_request):
