@@ -3,8 +3,54 @@
 
 import os
 import fnmatch
+from pathlib import Path
+import sys
 
-for file_name in os.listdir('testfiles/'):
-    if fnmatch.fnmatch(file_name,'*.txt'):
-        print(file_name)
-        os.startfile(file_name)
+
+
+
+files_path = Path('testfiles/')
+
+input_file = input("Enter a file name: ") # get the file name from the user
+
+file = os.path.join(files_path,input_file)
+
+
+
+if fnmatch.fnmatch(file,'*.txt'):
+    try:
+        os.startfile(file)
+    except OSError:
+        print('Could not open the file:',input_file)
+        sys.exit()
+
+
+elif fnmatch.fnmatch(file,'*.csv'):
+    try:
+        os.startfile(file)
+    except OSError:
+        print('Could not open the file:',input_file)
+        sys.exit()
+
+
+elif fnmatch.fnmatch(file,'*.mp3'):
+    try:
+        os.startfile(file)
+    except OSError:
+        print('Could not open the file:',input_file)
+        sys.exit()
+
+
+
+elif fnmatch.fnmatch(file,'*.docx'):
+    try:
+        os.startfile(file)
+    except OSError:
+        print('Could not open the file:',input_file)
+        sys.exit()
+
+
+
+
+else:
+    print('Error')
