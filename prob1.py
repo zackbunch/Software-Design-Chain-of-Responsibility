@@ -32,6 +32,7 @@ class AbstractHandler(object):
 
         if not handled:
             self._nxt.handle(request)
+            print('Sequence of handlers:')
             print(self.__class__.__name__, 'does not handle this type of request')
 
     def processRequest(self, request):
