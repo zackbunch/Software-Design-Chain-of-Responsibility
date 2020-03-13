@@ -28,7 +28,8 @@ class DataHandler(Handler):
         if fnmatch.fnmatch(file,'*.csv'):
             os.startfile(file)
             print("{} handling request '{}'".format(self.__class__.__name__, input_file))
-            pass
+
+
 
         elif self.successor is not None:
             print("{} passing request '{}'".format(self.__class__.__name__, input_file))
@@ -40,7 +41,8 @@ class DocumentHandler(Handler):
         if fnmatch.fnmatch(file,'*.pdf'):
             os.startfile(file)
             print("{} handling request '{}'".format(self.__class__.__name__, input_file))
-            pass
+
+
 
         elif self.successor is not None:
             print("{} passing request '{}'".format(self.__class__.__name__, input_file))
@@ -51,7 +53,7 @@ class MusicHandler(Handler):
         if fnmatch.fnmatch(file,'*.mp3'):
             os.startfile(file)
             print("{} handling request '{}'".format(self.__class__.__name__, input_file))
-            pass
+
 
         elif self.successor is not None:
             print("{} passing request '{}'".format(self.__class__.__name__, input_file))
@@ -62,25 +64,40 @@ class TextHandler(Handler):
         if fnmatch.fnmatch(file,'*.txt'):
             os.startfile(file)
             print("{} handling request '{}'".format(self.__class__.__name__, input_file))
-            pass
+
 
         elif self.successor is not None:
-            print("{} passing request '{}'".format(self.__class__.__name__, input_file))
+            print("{} passing request up '{}'".format(self.__class__.__name__, input_file))
             self.successor.handle_request()
 
 def main():
 
-    data_handler = DataHandler()
+    # data_handler = DataHandler()
+    # document_handler = DocumentHandler(data_handler)
+    #
+    # document_handler.handle_request()
+    # music_handler = MusicHandler(document_handler)
+    # music_handler.handle_request()
+    #
+    # text_handler = TextHandler(music_handler)
+    # text_handler.handle_request()
 
 
 
-    document_handler = DocumentHandler(data_handler)
-    document_handler.handle_request()
-    music_handler = MusicHandler(document_handler)
-    music_handler.handle_request()
 
-    text_handler = TextHandler(music_handler)
-    text_handler.handle_request()
+    # data_handler = DataHandler()
+    # document_handler = DocumentHandler(data_handler)
+    # music_handler = MusicHandler(document_handler)
+    # text_handler = TextHandler(music_handler)
+
+    text_handler = TextHandler()
+    music_handler = MusicHandler(text_handler)
+    document_handler = DocumentHandler(music_handler)
+    data_handler = DataHandler(document_handler).handle_request()
+
+
+
+
 
 
 
