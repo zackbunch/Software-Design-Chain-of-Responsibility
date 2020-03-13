@@ -10,161 +10,85 @@ import os
 import fnmatch
 from pathlib import Path
 import sys
+import  abc
+
+class Handler(metaclass=abc.ABCMeta):
+    def __init__(self, successor=None):
+        self.successor = successor
+
+        @abc.abstractmethod
+        def handle_request(self):
+            pass
 
 
-class AbstractHandler(object):
-
-    """Parent class of all concrete handlers"""
-
-    def __init__(self, nxt):
-
-        """change or increase the local variable using nxt"""
-
-        self._nxt = nxt
-
-    def handle(self, request):
-
-        """It calls the processRequest through given request"""
-
-        handled = self.processRequest(request)
-
-        """case when it is not handled"""
-
-        if not handled:
-            self._nxt.handle(request)
-            print('Sequence of handlers:')
-            print(self.__class__.__name__, 'does not handle this type of request')
-
-    def processRequest(self, request):
-
-        """throws a NotImplementedError"""
-
-        raise NotImplementedError('First implement it !')
 
 
-class DataHandler(AbstractHandler):
-
-    """Concrete Handler # 1: Child class of AbstractHandler"""
-
-    def processRequest(self, request):
-
-        '''return True if request is handled '''
+class DataHandler(Handler):
+    def handle_request(self):
         if fnmatch.fnmatch(file,'*.csv'):
-            try:
-                os.startfile(file)
-                print("{} handling request '{}'".format(self.__class__.__name__, request))
-                return True
-            except OSError:
-                print('File not found:',input_file)
-                sys.exit()
+            os.startfile(file)
+            print("{} handling request '{}'".format(self.__class__.__name__, input_file))
+            pass
+
+        elif self.successor is not None:
+            print("{} passing request '{}'".format(self.__class__.__name__, input_file))
+            self.successor.handle_request()
 
 
+class DocumentHandler(Handler):
+    def handle_request(self):
+        if fnmatch.fnmatch(file,'*.pdf'):
+            os.startfile(file)
+            print("{} handling request '{}'".format(self.__class__.__name__, input_file))
+            pass
 
-class MusicHandler(AbstractHandler):
+        elif self.successor is not None:
+            print("{} passing request '{}'".format(self.__class__.__name__, input_file))
+            self.successor.handle_request()
 
-    """Concrete Handler # 2: Child class of AbstractHandler"""
-
-    def processRequest(self, request):
-
-        '''return True if the request is handled'''
+class MusicHandler(Handler):
+    def handle_request(self):
         if fnmatch.fnmatch(file,'*.mp3'):
-            try:
-                os.startfile(file)
-                print("{} handling request '{}'".format(self.__class__.__name__, request))
-                return True
-            except OSError:
-                print('File not found:',input_file)
-                sys.exit()
+            os.startfile(file)
+            print("{} handling request '{}'".format(self.__class__.__name__, input_file))
+            pass
 
-class TextHandler(AbstractHandler):
+        elif self.successor is not None:
+            print("{} passing request '{}'".format(self.__class__.__name__, input_file))
+            self.successor.handle_request()
 
-    """Concrete Handler # 3: Child class of AbstractHandler"""
-
-    def processRequest(self, request):
-
-        '''return True if the request is handled'''
-
+class TextHandler(Handler):
+    def handle_request(self):
         if fnmatch.fnmatch(file,'*.txt'):
-            try:
-                os.startfile(file)
-                print("{} handling request '{}'".format(self.__class__.__name__, request))
-                return True
-            except OSError:
-                print('File not found:',input_file)
-                sys.exit()
+            os.startfile(file)
+            print("{} handling request '{}'".format(self.__class__.__name__, input_file))
+            pass
 
+        elif self.successor is not None:
+            print("{} passing request '{}'".format(self.__class__.__name__, input_file))
+            self.successor.handle_request()
 
-class WordHandler(AbstractHandler):
+def main():
 
-    """Concrete Handler # 3: Child class of AbstractHandler"""
-
-    def processRequest(self, request):
-
-        '''return True if the request is handled'''
-
-        if fnmatch.fnmatch(file,'*.docx'):
-            try:
-                os.startfile(file)
-                print("{} handling request '{}'".format(self.__class__.__name__, request))
-                return True
-            except OSError:
-                print('File not found:',input_file)
-                sys.exit()
+    data_handler = DataHandler()
 
 
 
+    document_handler = DocumentHandler(data_handler)
+    document_handler.handle_request()
+    music_handler = MusicHandler(document_handler)
+    music_handler.handle_request()
+
+    text_handler = TextHandler(music_handler)
+    text_handler.handle_request()
 
 
-class DefaultHandler(AbstractHandler):
-
-    """Default Handler: child class from AbstractHandler"""
-
-    def processRequest(self, request):
-
-        """Gives the message that the request is not handled and returns true"""
-
-        print("{} telling you that request '{}' has no handler right now.".format(self.__class__.__name__,
-                                                                                          request))
-        return True
-
-
-class User:
-
-    """User Class"""
-
-    def __init__(self):
-
-        """Provides the sequence of handles for the users"""
-
-        initial = None
-
-        self.handler = DataHandler(MusicHandler(TextHandler(WordHandler(DefaultHandler(initial)))))
-
-    def agent(self, user_request):
-        self.handler.handle(requests)
-
-        """Iterates over each request and sends them to specific handles"""
-
-        # for request in user_request:
-        #     self.handler.handle(request)
-
-"""main method"""
 
 if __name__ == "__main__":
-
-    """Create a client object"""
-    user = User()
-
-    """Create requests to be processed"""
-
     files_path = Path('testfiles/')
 
     input_file = input("Enter a file name: ") # get the file name from the user
 
     file = os.path.join(files_path,input_file)
-
-    #string = "GeeksforGeeks"
-    requests = file
-
-    """Send the requests one by one, to handlers as per the sequence of handlers defined in the Client class"""
-    user.agent(requests)
+    #
+    main()
