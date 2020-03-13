@@ -7,14 +7,15 @@ import sys
     # if fnmatch.fnmatch(file,'*.csv'):
     #     try:
     #         os.startfile(file)
-# files_path = Path('testfiles/')
+
 #
 # input_file = input("Enter a file name: ") # get the file name from the user
 #
-# file = os.path.join(files_path,input_file)
 
 
+files_path = Path('testfiles/')
 file = input('Enter a file name:')
+full_path = os.path.join(files_path,file)
 file_extension = file.split('.')
 extension = str(file_extension[-1])
 
@@ -22,20 +23,37 @@ extension = str(file_extension[-1])
 
 def DataHandler():
     print('Data Handler')
-    os.startfile('testfiles\data.csv')
+    try:
+        os.startfile(full_path)
+    except OSError:
+        print('File not found:',file)
+        sys.exit()
+
 
 
 def MusicHandler():
     print('Music Handler')
-    os.startfile('testfiles\musicfile.mp3')
+    try:
+        os.startfile(full_path)
+    except OSError:
+        print('File not found:',file)
+        sys.exit()
 
 def PDFHandler():
     print('PDF Handler')
-    os.startfile('testfiles\document.pdf')
+    try:
+        os.startfile(full_path)
+    except OSError:
+        print('File not found:',file)
+        sys.exit()
 
 def WordHandler():
     print('In PDF handler')
-    os.startfile('testfiles\word.docx')
+    try:
+        os.startfile(full_path)
+    except OSError:
+        print('File not found:',file)
+        sys.exit()
 
 extensions = {
     'csv': DataHandler,
