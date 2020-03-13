@@ -48,7 +48,7 @@ def PDFHandler():
         sys.exit()
 
 def WordHandler():
-    print('In PDF handler')
+    print('Word handler')
     try:
         os.startfile(full_path)
     except OSError:
