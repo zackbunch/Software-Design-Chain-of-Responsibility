@@ -72,23 +72,7 @@ class TextHandler(Handler):
 
 def main():
 
-    # data_handler = DataHandler()
-    # document_handler = DocumentHandler(data_handler)
-    #
-    # document_handler.handle_request()
-    # music_handler = MusicHandler(document_handler)
-    # music_handler.handle_request()
-    #
-    # text_handler = TextHandler(music_handler)
-    # text_handler.handle_request()
 
-
-
-
-    # data_handler = DataHandler()
-    # document_handler = DocumentHandler(data_handler)
-    # music_handler = MusicHandler(document_handler)
-    # text_handler = TextHandler(music_handler)
 
     text_handler = TextHandler()
     music_handler = MusicHandler(text_handler)
